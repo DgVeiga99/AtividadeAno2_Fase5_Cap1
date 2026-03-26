@@ -24,23 +24,15 @@ A arquitetura do CardioIA foi projetada seguindo o princípio de separação de 
 
 ### 1. Front-end
 
-O Front-end foi desenvolvido utilizando HTML, CSS e JavaScript, sendo responsável por toda a interação com o usuário. A interface simula um ambiente de chat, permitindo a entrada de mensagens e a visualização das respostas do assistente em tempo real.
-
-Além da comunicação com o backend, essa camada implementa melhorias na experiência do usuário, como a simulação de digitação do assistente (delay), organização visual das mensagens e controle da sessão de conversa. O foco dessa camada é tornar a interação mais natural e intuitiva.
+O front-end é responsável pela experiência do usuário e está concentrado no arquivo [`index.html`](./index.html). Nessa camada foram implementados o layout visual do chat, a área de entrada de mensagens, a renderização das respostas, o botão de reinício da conversa e os efeitos de humanização da interface, como a animação de digitação do assistente. Em termos funcionais, esse arquivo cuida da interação direta com o usuário e realiza as chamadas HTTP para o backend, servindo como ponto de entrada visual da aplicação.
 
 ### 2. Back-end
 
-O Back-end foi implementado em Python e atua como a camada intermediária entre a interface e o serviço de inteligência artificial. Sua principal função é gerenciar o fluxo de comunicação, recebendo as mensagens do usuário, estruturando as requisições e encaminhando-as ao Watson Assistant.
-
-Essa camada também é responsável pelo tratamento das respostas recebidas, garantindo que o retorno ao usuário esteja formatado corretamente. Além disso, permite a futura implementação de regras de negócio, logs, persistência de dados e integrações com outros sistemas.
+O back-end está implementado no arquivo [`main.py`](./main.py). Essa camada atua como intermediária entre a interface web e o Watson Assistant, sendo responsável por criar e encerrar sessões, receber as mensagens enviadas pelo usuário, encaminhá-las ao serviço cognitivo, tratar a resposta retornada e devolver o conteúdo formatado para o front-end. Também é no backend que ficam concentradas as rotas principais da aplicação, como carregamento inicial da interface, obtenção da mensagem de boas-vindas, envio de mensagens e reinicialização da sessão.
 
 ### 3. Watson (IBM Watson Assistant)
 
-O Watson Assistant representa o núcleo cognitivo da aplicação, sendo responsável pelo processamento de linguagem natural. Ele interpreta as mensagens enviadas pelo usuário, identificando intenções, entidades e contexto da conversa.
-
-Com base nessa análise, o Watson gera respostas coerentes e contextualizadas, seguindo fluxos de diálogo previamente definidos. Esse modelo se encaixa em sistemas conversacionais modernos, que utilizam NLU para entendimento da linguagem e podem evoluir para abordagens híbridas mais avançadas :contentReference[oaicite:1]{index=1}.
-
-A utilização do Watson permite desacoplar a inteligência do sistema da lógica de aplicação, facilitando a evolução do assistente sem necessidade de alterações estruturais no software.
+A camada cognitiva da aplicação está representada no arquivo [`Assistente-Cardio-dialog.json`](./Assistente-Cardio-dialog.json), que contém a estrutura conversacional do assistente no IBM Watson Assistant. Nesse arquivo estão definidas as intenções, entidades, exemplos de treinamento e nós de diálogo que permitem ao sistema reconhecer sintomas leves, sintomas graves, dúvidas sobre exames, preparo pré-exame e respostas afirmativas ou negativas. Essa camada é responsável pela interpretação semântica da mensagem e pela definição da resposta conversacional, funcionando como o núcleo de inteligência do projeto.
 
 ---
 
@@ -62,7 +54,7 @@ Principais bibliotecas:
 
 - ibm-watson  
 - ibm-cloud-sdk-core  
-- flask (ou equivalente)  
+- flask
 - requests  
 
 No frontend, foram utilizadas tecnologias nativas da web:
@@ -77,13 +69,21 @@ Essa escolha garante uma aplicação leve, modular e de fácil manutenção.
 
 ## ▶️ Como Executar
 
-Para executar o projeto localmente, é necessário possuir o Python instalado na máquina.
+Para executar o projeto localmente, é necessário ter o Python instalado na máquina. Recomenda-se criar um ambiente virtual para isolar as dependências da aplicação. Em seguida, deve-se instalar as bibliotecas listadas no arquivo [`requirements.txt`](./requirements.txt) com o comando abaixo:
 
-Recomenda-se iniciar criando um ambiente virtual para isolamento das dependências. Após isso, deve-se instalar as bibliotecas necessárias utilizando o arquivo requirements.txt.
+```bash
+pip install -r requirements.txt
+```
 
-Com o ambiente configurado, o servidor Python deve ser iniciado, ativando a API responsável pelo processamento das requisições.
+Após a instalação, é necessário garantir que as credenciais do IBM Watson Assistant estejam corretamente configuradas no arquivo [`main.py`](./main.py), incluindo API key, URL do serviço, Assistant ID e versão utilizada.
 
-Por fim, basta colocar o software python em run mode para gerar o link da pagina do Flask, que por sua vez interage com o Watson, retornando respostas em tempo real ao usuário.
+Com isso configurado, basta iniciar a aplicação com:
+
+```bash
+python main.py
+```
+
+Depois da execução do servidor, a interface poderá ser acessada no navegador pelo endereço local informado pelo Flask. A partir desse ponto, o arquivo [`index.html`](./index.html) será carregado, as mensagens serão enviadas ao backend e o backend fará a comunicação com a estrutura conversacional definida em [`Assistente-Cardio-dialog.json`](./Assistente-Cardio-dialog.json).
 
 ---
 
