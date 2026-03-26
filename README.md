@@ -97,8 +97,7 @@ O vídeo apresenta a navegação pelo sistema, fluxo de interação com o assist
 
 ---
 
-## 👨‍💻 Autor
+## ⚠️ Aviso Importante
 
-Diego Veiga  
-Tecnólogo em Inteligência Artificial – FIAP  
-CEO – DKV Automação
+Este projeto possui finalidade **exclusivamente educacional** e **não deve ser utilizado para diagnóstico clínico**.  
+Os resultados simulam um ambiente de pesquisa e não substituem avaliação profissional em saúde.
