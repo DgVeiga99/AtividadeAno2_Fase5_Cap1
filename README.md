@@ -32,7 +32,22 @@ O back-end está implementado no arquivo [`main.py`](./main.py). Essa camada atu
 
 ### 3. Watson (IBM Watson Assistant)
 
-A camada cognitiva da aplicação está representada no arquivo [`Assistente-Cardio-dialog.json`](./Assistente-Cardio-dialog.json), que contém a estrutura conversacional do assistente no IBM Watson Assistant. Nesse arquivo estão definidas as intenções, entidades, exemplos de treinamento e nós de diálogo que permitem ao sistema reconhecer sintomas leves, sintomas graves, dúvidas sobre exames, preparo pré-exame e respostas afirmativas ou negativas. Essa camada é responsável pela interpretação semântica da mensagem e pela definição da resposta conversacional, funcionando como o núcleo de inteligência do projeto.
+O Watson Assistant representa o núcleo cognitivo da aplicação, sendo responsável pelo processamento de linguagem natural e pela condução completa da navegação conversacional do sistema.
+
+A arquitetura do assistente foi estruturada a partir de três componentes principais que, em conjunto, definem o comportamento do chatbot, organizados dentro do diretório `/json` do projeto:
+
+- [`Assistente-Cardio-dialog.json`](./json/Assistente-Cardio-dialog.json)  
+  Responsável pela definição do fluxo conversacional. Este arquivo contém toda a estrutura de navegação do assistente, incluindo nós de diálogo, condições, transições (`jump_to`) e organização lógica das respostas. É nele que está modelada a jornada do usuário, desde a saudação inicial até os fluxos de exames, preparo, sintomas e encerramento.
+
+- [`Intents.csv`](./json/Intents.csv) 
+  Define as intenções do usuário, permitindo que o Watson identifique o objetivo de cada mensagem recebida. As intenções foram estruturadas para reconhecer diferentes cenários, como dúvidas sobre exames, preparo, respostas afirmativas ou negativas e relatos de sintomas, garantindo que o fluxo siga corretamente conforme o contexto da interação.
+
+- [`Entities.csv`](./json/Entities.csv)  
+  Responsável pela identificação de elementos específicos dentro da mensagem do usuário. No projeto, a entidade principal está relacionada aos tipos de exames cardiológicos, permitindo que o sistema reconheça diferentes formas de escrita (inclusive com variações e sinônimos) e direcione o fluxo corretamente.
+
+O funcionamento do assistente ocorre a partir da combinação desses três componentes. Inicialmente, o Watson identifica a intenção da mensagem e extrai entidades relevantes. Em seguida, utiliza o arquivo de diálogo para determinar qual caminho seguir dentro da árvore conversacional.
+
+Essa abordagem permite que o sistema opere de forma contextualizada, adaptando as respostas conforme a interação do usuário. Além disso, o uso de `jump_to` dentro do fluxo garante reutilização de nós e uma navegação mais eficiente, evitando redundância na estrutura.
 
 ---
 
